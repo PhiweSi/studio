@@ -30,10 +30,10 @@ export default function TemplateCreative({ resumeData }: TemplateProps) {
             <div>
                 <h2 className="text-lg font-semibold uppercase tracking-wider mb-2 flex items-center gap-2"><User size={18}/> Contact</h2>
                 <div className="space-y-1 text-sm">
-                    {personalInfo.email && <p className="flex items-center gap-2"><Mail size={14}/> {personalInfo.email}</p>}
-                    {personalInfo.phone && <p className="flex items-center gap-2"><Phone size={14}/> {personalInfo.phone}</p>}
-                    {personalInfo.linkedin && <p className="flex items-center gap-2"><Linkedin size={14}/> {personalInfo.linkedin}</p>}
-                    {personalInfo.website && <p className="flex items-center gap-2"><Globe size={14}/> {personalInfo.website}</p>}
+                    {personalInfo.email && <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-2 hover:underline"><Mail size={14}/> {personalInfo.email}</a>}
+                    {personalInfo.phone && <a href={`tel:${personalInfo.phone}`} className="flex items-center gap-2 hover:underline"><Phone size={14}/> {personalInfo.phone}</a>}
+                    {personalInfo.linkedin && <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline"><Linkedin size={14}/> {personalInfo.linkedin}</a>}
+                    {personalInfo.website && <a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline"><Globe size={14}/> {personalInfo.website}</a>}
                 </div>
             </div>
 

@@ -13,7 +13,7 @@ interface TemplateProps {
 const ContactInfo = ({ personalInfo }: { personalInfo: ResumeData['personalInfo'] }) => (
     <div className="flex justify-center items-center gap-x-4 gap-y-1 text-sm text-gray-500 mt-3 flex-wrap">
         {personalInfo.email && <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-1.5 hover:text-primary"><Mail size={14}/> {personalInfo.email}</a>}
-        {personalInfo.phone && <span className="flex items-center gap-1.5"><Phone size={14}/> {personalInfo.phone}</span>}
+        {personalInfo.phone && <a href={`tel:${personalInfo.phone}`} className="flex items-center gap-1.5 hover:text-primary"><Phone size={14}/> {personalInfo.phone}</a>}
         {personalInfo.linkedin && <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-primary"><Linkedin size={14}/> {personalInfo.linkedin}</a>}
         {personalInfo.website && <a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-primary"><Globe size={14}/> {personalInfo.website}</a>}
     </div>
@@ -22,7 +22,7 @@ const ContactInfo = ({ personalInfo }: { personalInfo: ResumeData['personalInfo'
 const SidebarContactInfo = ({ personalInfo }: { personalInfo: ResumeData['personalInfo'] }) => (
     <div className="space-y-2 text-sm">
         {personalInfo.email && <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-2 hover:text-primary"><Mail size={14}/> {personalInfo.email}</a>}
-        {personalInfo.phone && <p className="flex items-center gap-2"><Phone size={14}/> {personalInfo.phone}</p>}
+        {personalInfo.phone && <a href={`tel:${personalInfo.phone}`} className="flex items-center gap-2 hover:text-primary"><Phone size={14}/> {personalInfo.phone}</a>}
         {personalInfo.linkedin && <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary"><Linkedin size={14}/> {personalInfo.linkedin}</a>}
         {personalInfo.website && <a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary"><Globe size={14}/> {personalInfo.website}</a>}
     </div>
