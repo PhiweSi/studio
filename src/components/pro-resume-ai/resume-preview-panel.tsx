@@ -43,10 +43,9 @@ export default function ResumePreviewPanel({ resumeData, setResumeData }: Resume
 
     const handleExport = (format: 'PDF' | 'DOCX' | 'HTML') => {
         if (format === 'PDF') {
-            const preview = document.getElementById('resume-preview-content');
-            if(preview) {
-                window.print();
-            }
+            // This triggers the browser's print dialog, where the user can choose "Save as PDF"
+            // This is the most reliable client-side method for creating a PDF.
+            window.print();
         } else {
             toast({
                 title: 'Feature Not Available',
@@ -192,13 +191,13 @@ export default function ResumePreviewPanel({ resumeData, setResumeData }: Resume
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => handleExport('PDF')}>
-                  <FileType className="mr-2" /> PDF
+                  <FileType className="mr-2" /> Save as PDF
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => handleExport('DOCX')}>
-                  <FileText className="mr-2" /> DOCX
+                  <FileText className="mr-2" /> Save as DOCX
                 </DropdownMenuItem>
                  <DropdownMenuItem onClick={() => handleExport('HTML')}>
-                  <FileText className="mr-2" /> HTML
+                  <FileText className="mr-2" /> Save as HTML
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
