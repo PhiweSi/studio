@@ -31,6 +31,7 @@ import TemplateModern from './templates/template-modern';
 import TemplateClassic from './templates/template-classic';
 import TemplateCreative from './templates/template-creative';
 import { Switch } from '@/components/ui/switch';
+import { useToast } from '@/hooks/use-toast';
 
 interface ResumePreviewPanelProps {
   resumeData: ResumeData;
@@ -38,13 +39,19 @@ interface ResumePreviewPanelProps {
 }
 
 export default function ResumePreviewPanel({ resumeData, setResumeData }: ResumePreviewPanelProps) {
+    const { toast } = useToast();
+
     const handleExport = (format: 'PDF' | 'DOCX' | 'HTML') => {
-        alert(`Exporting as ${format}... (This is a placeholder action)`);
         if (format === 'PDF') {
             const preview = document.getElementById('resume-preview-content');
             if(preview) {
                 window.print();
             }
+        } else {
+            toast({
+                title: 'Feature Not Available',
+                description: `Exporting as ${format} is not yet implemented.`,
+            });
         }
     };
     
