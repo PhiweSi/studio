@@ -1,4 +1,4 @@
-"use server";
+'use server';
 
 import {
   generateResumeContent,
@@ -25,34 +25,77 @@ import {
   type ParseResumePdfInput,
   type ParseResumePdfOutput,
 } from '@/ai/flows/parse-resume-pdf';
+import { checkApiKey } from '@/ai/genkit';
+import { GenkitError } from 'genkit';
 
+type ActionError = { error: string; details?: string };
 
 export async function generateResumeContentAction(
   input: GenerateResumeContentInput
-): Promise<GenerateResumeContentOutput> {
-  return await generateResumeContent(input);
+): Promise<GenerateResumeContentOutput | ActionError> {
+  try {
+    checkApiKey();
+    return await generateResumeContent(input);
+  } catch (e) {
+    if (e instanceof GenkitError) {
+      return { error: e.message, details: e.details };
+    }
+    return { error: 'An unexpected error occurred.' };
+  }
 }
 
 export async function suggestKeywordsAction(
   input: SuggestKeywordsInput
-): Promise<SuggestKeywordsOutput> {
-  return await suggestKeywords(input);
+): Promise<SuggestKeywordsOutput | ActionError> {
+  try {
+    checkApiKey();
+    return await suggestKeywords(input);
+  } catch (e) {
+    if (e instanceof GenkitError) {
+      return { error: e.message, details: e.details };
+    }
+    return { error: 'An unexpected error occurred.' };
+  }
 }
 
 export async function matchJobDescriptionAction(
   input: MatchJobDescriptionInput
-): Promise<MatchJobDescriptionOutput> {
-  return await matchJobDescription(input);
+): Promise<MatchJobDescriptionOutput | ActionError> {
+  try {
+    checkApiKey();
+    return await matchJobDescription(input);
+  } catch (e) {
+    if (e instanceof GenkitError) {
+      return { error: e.message, details: e.details };
+    }
+    return { error: 'An unexpected error occurred.' };
+  }
 }
 
 export async function learnFromUserEditsAction(
   input: LearnFromUserEditsInput
-): Promise<LearnFromUserEditsOutput> {
-  return await learnFromUserEdits(input);
+): Promise<LearnFromUserEditsOutput | ActionError> {
+  try {
+    checkApiKey();
+    return await learnFromUserEdits(input);
+  } catch (e) {
+    if (e instanceof GenkitError) {
+      return { error: e.message, details: e.details };
+    }
+    return { error: 'An unexpected error occurred.' };
+  }
 }
 
 export async function parseResumePdfAction(
   input: ParseResumePdfInput
-): Promise<ParseResumePdfOutput> {
-    return await parseResumePdf(input);
+): Promise<ParseResumePdfOutput | ActionError> {
+    try {
+        checkApiKey();
+        return await parseResumePdf(input);
+    } catch (e) {
+        if (e instanceof GenkitError) {
+            return { error: e.message, details: e.details };
+        }
+        return { error: 'An unexpected error occurred.' };
+    }
 }

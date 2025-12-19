@@ -11,19 +11,19 @@ interface TemplateProps {
 
 const ContactInfo = ({ personalInfo }: { personalInfo: ResumeData['personalInfo'] }) => (
     <div className="flex justify-center items-center gap-x-4 gap-y-1 text-xs mt-3 flex-wrap">
-        {personalInfo.email && <span className="flex items-center gap-1">{personalInfo.email}</span>}
-        {personalInfo.phone && <span className="flex items-center gap-1">| {personalInfo.phone}</span>}
-        {personalInfo.linkedin && <span className="flex items-center gap-1">| {personalInfo.linkedin}</span>}
-        {personalInfo.website && <span className="flex items-center gap-1">| {personalInfo.website}</span>}
+        {personalInfo.email && <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-1 hover:underline">{personalInfo.email}</a>}
+        {personalInfo.phone && <a href={`tel:${personalInfo.phone}`} className="flex items-center gap-1 hover:underline">| {personalInfo.phone}</a>}
+        {personalInfo.linkedin && <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline">| {personalInfo.linkedin}</a>}
+        {personalInfo.website && <a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 hover:underline">| {personalInfo.website}</a>}
     </div>
 );
 
 const SidebarContactInfo = ({ personalInfo }: { personalInfo: ResumeData['personalInfo'] }) => (
     <div className="space-y-2 text-sm">
-        {personalInfo.email && <p className="flex items-center gap-2"><Mail size={14}/> {personalInfo.email}</p>}
-        {personalInfo.phone && <p className="flex items-center gap-2"><Phone size={14}/> {personalInfo.phone}</p>}
-        {personalInfo.linkedin && <p className="flex items-center gap-2"><Linkedin size={14}/> {personalInfo.linkedin}</p>}
-        {personalInfo.website && <p className="flex items-center gap-2"><Globe size={14}/> {personalInfo.website}</p>}
+        {personalInfo.email && <a href={`mailto:${personalInfo.email}`} className="flex items-center gap-2 hover:underline"><Mail size={14}/> {personalInfo.email}</a>}
+        {personalInfo.phone && <a href={`tel:${personalInfo.phone}`} className="flex items-center gap-2 hover:underline"><Phone size={14}/> {personalInfo.phone}</a>}
+        {personalInfo.linkedin && <a href={`https://${personalInfo.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline"><Linkedin size={14}/> {personalInfo.linkedin}</a>}
+        {personalInfo.website && <a href={`https://${personalInfo.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:underline"><Globe size={14}/> {personalInfo.website}</a>}
     </div>
 );
 

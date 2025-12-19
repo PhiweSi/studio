@@ -31,6 +31,7 @@ import TemplateModern from './templates/template-modern';
 import TemplateClassic from './templates/template-classic';
 import TemplateCreative from './templates/template-creative';
 import { Switch } from '@/components/ui/switch';
+import { useToast } from '@/hooks/use-toast';
 
 interface ResumePreviewPanelProps {
   resumeData: ResumeData;
@@ -38,13 +39,18 @@ interface ResumePreviewPanelProps {
 }
 
 export default function ResumePreviewPanel({ resumeData, setResumeData }: ResumePreviewPanelProps) {
+    const { toast } = useToast();
+
     const handleExport = (format: 'PDF' | 'DOCX' | 'HTML') => {
-        alert(`Exporting as ${format}... (This is a placeholder action)`);
         if (format === 'PDF') {
-            const preview = document.getElementById('resume-preview-content');
-            if(preview) {
-                window.print();
-            }
+            // This triggers the browser's print dialog, where the user can choose "Save as PDF"
+            // This is the most reliable client-side method for creating a PDF.
+            window.print();
+        } else {
+            toast({
+                title: 'Feature Not Available',
+                description: `Exporting as ${format} is not yet implemented.`,
+            });
         }
     };
     
@@ -185,13 +191,13 @@ export default function ResumePreviewPanel({ resumeData, setResumeData }: Resume
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => handleExport('PDF')}>
-                  <FileType className="mr-2" /> PDF
+                  <FileType className="mr-2" /> Save as PDF
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => handleExport('DOCX')}>
-                  <FileText className="mr-2" /> DOCX
+                  <FileText className="mr-2" /> Save as DOCX
                 </DropdownMenuItem>
                  <DropdownMenuItem onClick={() => handleExport('HTML')}>
-                  <FileText className="mr-2" /> HTML
+                  <FileText className="mr-2" /> Save as HTML
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -19,6 +19,10 @@ interface ResumeEditorProps {
   setResumeData: Dispatch<SetStateAction<ResumeData>>;
 }
 
+function isActionError(result: any): result is { error: string, details?: string } {
+    return result && typeof result.error === 'string';
+}
+
 export default function ResumeEditor({ resumeData, setResumeData }: ResumeEditorProps) {
   const { toast } = useToast();
   const [isGenerating, startGenerationTransition] = useTransition();
@@ -51,9 +55,10 @@ export default function ResumeEditor({ resumeData, setResumeData }: ResumeEditor
     reader.onload = () => {
       const dataUri = reader.result as string;
       startParsingTransition(async () => {
-        try {
-          const result = await parseResumePdfAction({ pdfDataUri: dataUri });
-          if (result) {
+        const result = await parseResumePdfAction({ pdfDataUri: dataUri });
+        if (isActionError(result)) {
+            toast({ variant: 'destructive', title: result.error, description: result.details });
+        } else if (result) {
             setResumeData(prev => ({
               ...prev,
               personalInfo: result.personalInfo ?? prev.personalInfo,
@@ -68,9 +73,6 @@ export default function ResumeEditor({ resumeData, setResumeData }: ResumeEditor
           } else {
              toast({ variant: 'destructive', title: 'Parsing Failed', description: 'Could not extract information from the PDF.' });
           }
-        } catch (error) {
-           toast({ variant: 'destructive', title: 'Parsing Error', description: 'An unexpected error occurred.' });
-        }
       });
     };
     reader.readAsDataURL(file);
@@ -164,7 +166,10 @@ export default function ResumeEditor({ resumeData, setResumeData }: ResumeEditor
     startGenerationTransition(async () => {
       const careerInformation = `Experience: ${resumeData.experience.map(e => `${e.jobTitle} at ${e.company}`).join(', ')}. Skills: ${resumeData.skills.join(', ')}.`;
       const result = await generateResumeContentAction({ careerInformation, jobRole: targetJobRole });
-      if (result && result.resumeContent) {
+      
+      if (isActionError(result)) {
+        toast({ variant: 'destructive', title: result.error, description: result.details });
+      } else if (result && result.resumeContent) {
         setOriginalSummary(result.resumeContent);
         setResumeData(prev => ({
           ...prev,
@@ -184,7 +189,9 @@ export default function ResumeEditor({ resumeData, setResumeData }: ResumeEditor
     }
     startLearningTransition(async () => {
         const result = await learnFromUserEditsAction({ originalContent: originalSummary, editedContent: resumeData.personalInfo.summary });
-        if(result.success) {
+        if(isActionError(result)) {
+            toast({ variant: 'destructive', title: result.error, description: result.details });
+        } else if(result.success) {
             toast({ title: "Feedback Received!", description: "The AI will incorporate your style in future." });
         }
     });

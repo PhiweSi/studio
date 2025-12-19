@@ -23,6 +23,11 @@ interface AIToolsPanelProps {
 type KeywordsOutput = { keywords: string[] };
 type MatchOutput = { similarityScore: number; suggestions: string };
 
+function isActionError(result: any): result is { error: string, details?: string } {
+    return result && typeof result.error === 'string';
+}
+
+
 export default function AIToolsPanel({ resumeData }: AIToolsPanelProps) {
   const [isKeywordsPending, startKeywordsTransition] = useTransition();
   const [isMatchPending, startMatchTransition] = useTransition();
@@ -48,7 +53,13 @@ export default function AIToolsPanel({ resumeData }: AIToolsPanelProps) {
 
     startKeywordsTransition(async () => {
       const result = await suggestKeywordsAction({ jobRole, industry });
-      if (result && result.keywords) {
+      if (isActionError(result)) {
+        toast({
+          variant: 'destructive',
+          title: result.error,
+          description: result.details,
+        });
+      } else if (result && result.keywords) {
         setKeywordsResult(result);
         toast({
           title: 'Keywords Generated',
@@ -86,7 +97,13 @@ export default function AIToolsPanel({ resumeData }: AIToolsPanelProps) {
     startMatchTransition(async () => {
       const resumeText = getResumeText();
       const result = await matchJobDescriptionAction({ jobDescriptionText: jobDescriptionForMatch, resumeText });
-       if (result && typeof result.similarityScore === 'number') {
+      if (isActionError(result)) {
+        toast({
+            variant: 'destructive',
+            title: result.error,
+            description: result.details,
+        });
+       } else if (result && typeof result.similarityScore === 'number') {
         setMatchResult(result);
         toast({
           title: 'Analysis Complete',
